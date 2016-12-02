@@ -28,12 +28,53 @@ public class Snake {
 	}
 	
 	/**
-	 * This method will move the snake forward.
+	 * This method will move the snake forward. If not successful, game should finish.
 	 */
-	public void nextMove(){
+	public boolean nextMove(){
 		System.out.println("moved!");
 		Point first = occupiedPoints.remove(0);
 		first.release();
+		Point last = occupiedPoints.get(occupiedPoints.size()-1);
+		int row = last.getRow();
+		int col = last.getCol();
 		
+		switch(directionOfTravel){
+			case North:
+				row--;
+				break;
+			case South:
+				row++;
+				break;
+			case West:
+				col--;
+				break;
+			case East:
+				col++;
+				break;
+		}
+		
+		if (!GridPanel.getInstance().isInBound(row, col)){
+			return false;
+		}
+		
+		if (isTouching()){
+			return false;
+		}
+		
+		
+		Point nextPoint = GridPanel.getInstance().getPointAt(row, col);
+		nextPoint.Occupy();
+		occupiedPoints.add(nextPoint);
+		return true;
+		
+	}
+	
+	/**
+	 * This method returns if the point about to be added is already a snake point.
+	 * 
+	 * @return
+	 */
+	public boolean isTouching(){
+		return false;
 	}
 }

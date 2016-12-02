@@ -59,8 +59,11 @@ public class GridPanel extends JPanel{
 	}
 	
 	/**
-	 * This method returns the point that's
+	 * This method checks if a row/col index is outOfBounds.
 	 */
+	public boolean isInBound(int row, int col){
+		return (row<rows && col<cols);
+	}
 	
 
 }

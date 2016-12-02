@@ -13,6 +13,12 @@ public class Game {
 	private GridPanel grid = GridPanel.getInstance();
 	private Snake snake = new Snake();
 	private Point food;
+	private Timer _timer = new Timer(1000, new ActionListener(){
+		@Override
+		public void actionPerformed(ActionEvent arg0){
+			nextMove();
+		}
+	});
 	
 	private static Game instance;
 	
@@ -25,18 +31,17 @@ public class Game {
 		return instance;
 	}
 	
-	public void startGame(){
-		Timer timer = new Timer(1000, new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent arg0){
-				nextMove();
-			}
-		});
-		timer.start();
+	public void startGame(){		
+		_timer.start();
 	}
 	
 	public void nextMove(){
-		snake.nextMove();
+		if(!snake.nextMove()){
+			_timer.stop();
+			System.out.println("Game ends!");
+		}
 	}
+	
+	
 
 }
