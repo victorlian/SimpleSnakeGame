@@ -13,8 +13,8 @@ public class GridPanel extends JPanel{
 
 	private static final long serialVersionUID = 1L;
 	
-	public static final int rows = 30;
-	public static final int cols = 30;
+	public static final int rows = 20;
+	public static final int cols = 20;
 	private static final int rowDim = Frame.sizeGridRow;
 	private static final int colDim = Frame.sizeGridCol;
 	

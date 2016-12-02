@@ -2,9 +2,14 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
 import javax.swing.JButton;
 
-public class Frame extends JFrame {
+public class Frame extends JFrame implements KeyListener{
 
 	/**
 	 * 
@@ -37,9 +42,55 @@ public class Frame extends JFrame {
 		contentPane.add(buttonPanel);
 		buttonPanel.setLayout(new GridLayout(1, 0, 0, 0));
 		
-		JButton btnHeybutton = new JButton("HeyButton");
-		buttonPanel.add(btnHeybutton);
+		JButton btnStart = new JButton("Start");
+		buttonPanel.add(btnStart);
+		btnStart.setFocusable(false);
+		
+		this.addKeyListener(this);
+		this.setFocusable(true);
+		this.setFocusTraversalKeysEnabled(false);
+		
+		btnStart.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				Game.getInstance().startGame();
+			}
+			
+		});
 		
 		
 	}
+
+	/**
+	 * Need to change direction.
+	 */
+	@Override
+	public void keyPressed(KeyEvent e) {
+		switch (e.getKeyCode()){
+			case KeyEvent.VK_LEFT:
+				Game.getInstance().getSnake().toWest();
+				break;
+			case KeyEvent.VK_RIGHT:
+				Game.getInstance().getSnake().toEast();
+				break;
+			case KeyEvent.VK_UP:
+				Game.getInstance().getSnake().toNorth();
+				break;
+			case KeyEvent.VK_DOWN:
+				Game.getInstance().getSnake().toSouth();
+				break;
+		}
+		
+	}
+
+	
+	/**
+	 * Do nothing.
+	 */
+	@Override
+	public void keyReleased(KeyEvent e) {}
+
+
+	@Override
+	public void keyTyped(KeyEvent e) {}
 }

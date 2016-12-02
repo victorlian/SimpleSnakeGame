@@ -12,33 +12,36 @@ public class Snake {
 		North, South, East, West;
 	}
 	
-	private int length;
-	private List<Point> occupiedPoints = new ArrayList<Point>();
-	private Direction directionOfTravel;
+	private List<Point> _occupiedPoints = new ArrayList<Point>();
+	private Direction _directionOfTravel;
+	private Direction _nextDirection;
 	
 	
 	public Snake(){
-		length = 3;
 		for(int i=0; i<3; i++){
 			Point p = GridPanel.getInstance().getPointAt(GridPanel.rows/2, GridPanel.rows/2+i);
 			p.Occupy();
-			occupiedPoints.add(p);
+			_occupiedPoints.add(p);
 		}
-		directionOfTravel = Snake.Direction.East;
+		_directionOfTravel = Snake.Direction.East;
 	}
 	
 	/**
 	 * This method will move the snake forward. If not successful, game should finish.
 	 */
 	public boolean nextMove(){
+		if (_nextDirection!=null){
+			_directionOfTravel = _nextDirection;
+			_nextDirection=null;
+		}
 		System.out.println("moved!");
-		Point first = occupiedPoints.remove(0);
+		Point first = _occupiedPoints.remove(0);
 		first.release();
-		Point last = occupiedPoints.get(occupiedPoints.size()-1);
+		Point last = _occupiedPoints.get(_occupiedPoints.size()-1);
 		int row = last.getRow();
 		int col = last.getCol();
 		
-		switch(directionOfTravel){
+		switch(_directionOfTravel){
 			case North:
 				row--;
 				break;
@@ -64,7 +67,7 @@ public class Snake {
 		
 		Point nextPoint = GridPanel.getInstance().getPointAt(row, col);
 		nextPoint.Occupy();
-		occupiedPoints.add(nextPoint);
+		_occupiedPoints.add(nextPoint);
 		return true;
 		
 	}
@@ -77,4 +80,32 @@ public class Snake {
 	public boolean isTouching(){
 		return false;
 	}
+	
+	
+	/**
+	 * Methods for changing direction purpose.
+	 */
+	public void toNorth(){
+		if (_directionOfTravel != Snake.Direction.South && _nextDirection ==null){
+			_nextDirection = Snake.Direction.North;
+		}
+		
+	}
+	public void toSouth(){
+		if (_directionOfTravel != Snake.Direction.North && _nextDirection == null){
+			_nextDirection = Snake.Direction.South;
+		}
+	}
+	public void toEast(){
+		if (_directionOfTravel != Snake.Direction.West && _nextDirection == null){
+			_nextDirection = Snake.Direction.East;
+		}
+	}
+	
+	public void toWest(){
+		if (_directionOfTravel != Snake.Direction.East && _nextDirection == null){
+			_nextDirection = Snake.Direction.West;
+		}
+	}
+	
 }

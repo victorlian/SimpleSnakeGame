@@ -5,15 +5,15 @@ import javax.swing.Timer;
 
 /**
  * This class monitors the game.
- * It contains: a gridPanel, a snake, a food.
+ * It contains: a snake, a food.
  * @author Victor
  *
  */
 public class Game {
-	private GridPanel grid = GridPanel.getInstance();
 	private Snake snake = new Snake();
 	private Point food;
-	private Timer _timer = new Timer(1000, new ActionListener(){
+	public static final int timerSpeed = 500;
+	private Timer _timer = new Timer(timerSpeed, new ActionListener(){
 		@Override
 		public void actionPerformed(ActionEvent arg0){
 			nextMove();
@@ -40,6 +40,14 @@ public class Game {
 			_timer.stop();
 			System.out.println("Game ends!");
 		}
+	}
+	
+	/**
+	 * Getter for getting the snake in this current game.
+	 * @return
+	 */
+	public Snake getSnake(){
+		return snake;
 	}
 	
 	
