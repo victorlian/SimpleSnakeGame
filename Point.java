@@ -26,10 +26,14 @@ public class Point extends JPanel{
 	private static final Color snakeColour = Color.RED;
 	private static final Color foodColour = Color.GREEN;
 	private PointStatus _ps = PointStatus.BLANK;
+	private final int _row;
+	private final int _col;
 	
-	public Point(){
+	public Point(int row, int col){
 		this.setBorder(BorderFactory.createLineBorder(Color.black));
 		changeColour();
+		_row = row;
+		_col = col;
 	}
 	
 	/**
@@ -74,5 +78,18 @@ public class Point extends JPanel{
 		}
 	}
 	
+	/**
+	 * This method will return the row index of a point.
+	 */
+	public int getRow(){
+		return _row;
+	}
+	
+	/**
+	 * This method will return the col index of a point
+	 */
+	public int getCol(){
+		return _col;
+	}
 
 }

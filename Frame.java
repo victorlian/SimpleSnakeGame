@@ -11,7 +11,7 @@ public class Frame extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JPanel gridPanel = new GridPanel();
+	private JPanel gridPanel = GridPanel.getInstance();
 	private JPanel buttonPanel;
 	public static final int sizeGridRow = 380;
 	public static final int sizeGridCol = 380;

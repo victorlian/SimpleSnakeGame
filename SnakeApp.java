@@ -9,11 +9,14 @@ public class SnakeApp {
 				try {
 					Frame frame = new Frame();
 					frame.setVisible(true);
+					Game g= Game.getInstance();
+					g.startGame();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
+		
 	}
 
 
