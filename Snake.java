@@ -18,11 +18,12 @@ public class Snake {
 	
 	
 	public Snake(){
-		for(int i=0; i<3; i++){
-			Point p = GridPanel.getInstance().getPointAt(GridPanel.rows/2, GridPanel.rows/2+i);
+		//for(int i=0; i<3; i++){
+		//	Point p = GridPanel.getInstance().getPointAt(GridPanel.rows/2, GridPanel.rows/2+i);
+		    Point p = GridPanel.getInstance().getPointAt(1, 1);
 			p.Occupy();
 			_occupiedPoints.add(p);
-		}
+		//}
 		_directionOfTravel = Snake.Direction.East;
 	}
 	
@@ -66,11 +67,20 @@ public class Snake {
 			return false;
 		}
 		
+		//As soon as the snake eats the food, it should generate the next food position.
+		if (isEating(nextPoint) && isFull()){
+			nextPoint.Occupy();
+			System.out.println("WON!!!!");
+			return false;
+		}
+		
 		if (!isEating(nextPoint)){
 			first.release();
 			_occupiedPoints.remove(0);
+		} else {
+			Food.getInstance().updateFood();
 		}
-		
+
 		nextPoint.Occupy();
 		_occupiedPoints.add(nextPoint);
 		return true;
@@ -91,13 +101,12 @@ public class Snake {
 	
 	/**
 	 * This method returns if the point about to be added is a food point.
-	 * As soon as the snake eats the food, it should generate the next food position.
+
 	 * 
 	 * @return
 	 */
 	public boolean isEating(Point nextPoint){
 		if (nextPoint.getStatus() == Point.PointStatus.FOOD){
-			Food.getInstance().updateFood();
 			return true;
 		}
 		return false;
@@ -133,7 +142,7 @@ public class Snake {
 	 * Method for checking if the snake occupies the entire screen.
 	 */
 	public boolean isFull(){
-		return (_occupiedPoints.size()==GridPanel.cols * GridPanel.rows);
+		return ((_occupiedPoints.size()+1)==GridPanel.cols * GridPanel.rows);
 	}
 	
 }

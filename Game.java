@@ -12,7 +12,7 @@ import javax.swing.Timer;
 public class Game {
 	private Snake _snake = new Snake();
 	private Food _food;
-	public static final int timerSpeed = 1000;
+	public static final int timerSpeed = 600;
 	private Timer _timer = new Timer(timerSpeed, new ActionListener(){
 		@Override
 		public void actionPerformed(ActionEvent arg0){
