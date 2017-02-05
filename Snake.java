@@ -18,12 +18,11 @@ public class Snake {
 	
 	
 	public Snake(){
-		//for(int i=0; i<3; i++){
-		//	Point p = GridPanel.getInstance().getPointAt(GridPanel.rows/2, GridPanel.rows/2+i);
-		    Point p = GridPanel.getInstance().getPointAt(1, 1);
+		for(int i=0; i<3; i++){
+			Point p = GridPanel.getInstance().getPointAt(GridPanel.rows/2, GridPanel.rows/2+i);
 			p.Occupy();
 			_occupiedPoints.add(p);
-		//}
+		}
 		_directionOfTravel = Snake.Direction.East;
 	}
 	

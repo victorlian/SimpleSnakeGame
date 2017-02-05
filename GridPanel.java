@@ -13,8 +13,8 @@ public class GridPanel extends JPanel{
 
 	private static final long serialVersionUID = 1L;
 	
-	public static final int rows = 3;
-	public static final int cols = 3;
+	public static final int rows = 10;
+	public static final int cols = 10;
 	private static final int rowDim = Frame.sizeGridRow;
 	private static final int colDim = Frame.sizeGridCol;
 	
@@ -65,5 +65,16 @@ public class GridPanel extends JPanel{
 		return (row<rows && col<cols && row >= 0 && col >= 0);
 	}
 	
+	/**
+	 * This method will clear all the points marked and restore them to be blank.
+	 * Used for ending a game.
+	 */
+	public void clearAllPoints(){
+		for (int i=0; i<rows; i++){
+			for (int j=0; j<cols; j++){
+				getPointAt(i, j).release();
+			}
+		}
+	}
 
 }

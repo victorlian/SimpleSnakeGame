@@ -7,9 +7,7 @@ public class Food {
 	private static Food instance;
 	
 	
-	private Food(){
-		updateFood();
-	}
+	private Food(){}
 	
 	public static Food getInstance(){
 		if (instance == null){

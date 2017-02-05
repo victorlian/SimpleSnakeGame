@@ -11,7 +11,6 @@ import javax.swing.Timer;
  */
 public class Game {
 	private Snake _snake = new Snake();
-	private Food _food;
 	public static final int timerSpeed = 600;
 	private Timer _timer = new Timer(timerSpeed, new ActionListener(){
 		@Override
@@ -31,12 +30,34 @@ public class Game {
 		return instance;
 	}
 	
+	/**
+	 * Game controlling methods.
+	 */
 	public void startGame(){		
-		_timer.start();
-		_food = Food.getInstance();
+		_snake = new Snake();
+		_timer.restart();
+		Food.getInstance().updateFood();
 	}
 	
-	//Check if the game ends here. If not, generate a new food.
+	public void endGame(){
+		_timer.stop();
+		GridPanel.getInstance().clearAllPoints();
+		
+	}
+	
+	public void pauseGame(){
+		_timer.stop();
+	}
+	
+	public void resumeGame(){
+		_timer.start();
+	}
+	
+	
+	
+	/**
+	 * Check if the game ends here. If not, generate a new food.
+	 */
 	public void continueGame(){
 		if(!_snake.nextMove()){
 			_timer.stop();

@@ -40,11 +40,21 @@ public class Frame extends JFrame implements KeyListener{
 		buttonPanel = new JPanel();
 		buttonPanel.setBounds(436, 68, 117, 216);
 		contentPane.add(buttonPanel);
-		buttonPanel.setLayout(new GridLayout(1, 0, 0, 0));
+		buttonPanel.setLayout(new GridLayout(3, 0, 0, 0));
 		
+
 		JButton btnStart = new JButton("Start");
+		JButton btnEnd = new JButton("End");
+		JButton btnPause = new JButton("Pause");
+
 		buttonPanel.add(btnStart);
 		btnStart.setFocusable(false);
+		buttonPanel.add(btnEnd);
+		btnEnd.setFocusable(false);
+		buttonPanel.add(btnPause);
+		btnPause.setFocusable(false);
+
+			
 		
 		this.addKeyListener(this);
 		this.setFocusable(true);
@@ -54,9 +64,38 @@ public class Frame extends JFrame implements KeyListener{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				Game.getInstance().startGame();
+				btnStart.setEnabled(false);
+				btnEnd.setEnabled(true);
+				btnPause.setEnabled(true);
 			}
 			
 		});
+		btnEnd.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				Game.getInstance().endGame();
+				btnEnd.setEnabled(false);
+				btnStart.setEnabled(true);
+				btnPause.setText("Pause");
+				btnPause.setEnabled(false);
+			}
+			
+		});
+		btnPause.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if (btnPause.getText().equals("Pause")){
+					Game.getInstance().pauseGame();
+					btnPause.setText("Resume");
+				}
+				else {
+					Game.getInstance().resumeGame();
+					btnPause.setText("Pause");
+				}
+			}
+			
+		});
+		
 		
 		
 	}
