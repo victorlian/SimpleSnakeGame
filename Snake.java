@@ -11,17 +11,34 @@ public class Snake {
 	public enum Direction{
 		North, South, East, West;
 	}
+	public enum GameStatus{
+		WON, CONTINUE, LOST;
+	}
 	
-	private List<Point> _occupiedPoints = new ArrayList<Point>();
+	private List<Point> _occupiedPoints = new ArrayList<Point>(); //Warning, this should be a stack operation.
 	private Direction _directionOfTravel;
 	private Direction _nextDirection;
 	
 	
 	public Snake(){
 		for(int i=0; i<3; i++){
+
 			Point p = GridPanel.getInstance().getPointAt(GridPanel.rows/2, GridPanel.rows/2+i);
 			p.Occupy();
 			_occupiedPoints.add(p);
+			
+//			/*
+//			 * For debug use:
+//			 */
+//			if (i==0){
+//				p.colourHead();
+//				break;
+//			}
+			//NORMAL
+			if (i==2){
+				p.colourHead(); // colour the head to red.
+			}
+
 		}
 		_directionOfTravel = Snake.Direction.East;
 	}
@@ -29,7 +46,7 @@ public class Snake {
 	/**
 	 * This method will move the snake forward. If not successful, game should finish.
 	 */
-	public boolean nextMove(){
+	public GameStatus nextMove(){
 		if (_nextDirection!=null){
 			_directionOfTravel = _nextDirection;
 			_nextDirection=null;
@@ -39,6 +56,7 @@ public class Snake {
 		Point last = _occupiedPoints.get(_occupiedPoints.size()-1);
 		int row = last.getRow();
 		int col = last.getCol();
+		last.Occupy(); // this should change the colour back to red.
 		
 		switch(_directionOfTravel){
 			case North:
@@ -56,21 +74,21 @@ public class Snake {
 		}
 		
 		if (!GridPanel.getInstance().isInBound(row, col)){
-			return false;
+			return GameStatus.LOST;
 		}
 		
 
 		Point nextPoint = GridPanel.getInstance().getPointAt(row, col);
 		
 		if (isTouching(nextPoint)){
-			return false;
+			return GameStatus.LOST;
 		}
 		
 		//As soon as the snake eats the food, it should generate the next food position.
 		if (isEating(nextPoint) && isFull()){
 			nextPoint.Occupy();
-			System.out.println("WON!!!!");
-			return false;
+			nextPoint.colourHead();
+			return GameStatus.WON;
 		}
 		
 		if (!isEating(nextPoint)){
@@ -81,8 +99,9 @@ public class Snake {
 		}
 
 		nextPoint.Occupy();
+		nextPoint.colourHead();
 		_occupiedPoints.add(nextPoint);
-		return true;
+		return GameStatus.CONTINUE;
 		
 	}
 	

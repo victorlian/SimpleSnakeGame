@@ -1,6 +1,7 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
 /**
@@ -59,11 +60,21 @@ public class Game {
 	 * Check if the game ends here. If not, generate a new food.
 	 */
 	public void continueGame(){
-		if(!_snake.nextMove()){
-			_timer.stop();
-			System.out.println("Game ends!");
-			return;
+
+		switch(_snake.nextMove()){
+		    case WON:
+				JOptionPane.showMessageDialog(GridPanel.getInstance(), "You have won!", 
+						"Won!!!", JOptionPane.INFORMATION_MESSAGE);
+				break;
+		    case LOST:
+				JOptionPane.showMessageDialog(GridPanel.getInstance(), "Your snake died!", 
+						"Lost!!!", JOptionPane.INFORMATION_MESSAGE);
+				break;
+		    case CONTINUE:
+		    	return;
 		}
+		_timer.stop();
+		System.out.println("Game ends!");
 	}
 	
 	/**

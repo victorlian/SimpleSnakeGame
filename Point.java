@@ -25,6 +25,7 @@ public class Point extends JPanel{
 	private static final Color bg = Color.GRAY;
 	private static final Color snakeColour = Color.RED;
 	private static final Color foodColour = Color.GREEN;
+	private static final Color headColour = Color.ORANGE;
 	private PointStatus _ps = PointStatus.BLANK;
 	private final int _row;
 	private final int _col;
@@ -78,6 +79,18 @@ public class Point extends JPanel{
 		}
 	}
 	
+	/**
+	 * This method will colour the head to a different colour!
+	 * Only call this method on an occupied point.
+	 */
+	public void colourHead(){
+		if (_ps != PointStatus.SNAKE){
+			throw new RuntimeException("Cannot colour head!");
+		}
+		else {
+			this.setBackground(headColour);
+		}
+	}
 	/**
 	 * This method will return the row index of a point.
 	 */
