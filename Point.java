@@ -91,5 +91,12 @@ public class Point extends JPanel{
 	public int getCol(){
 		return _col;
 	}
+	
+	/**
+	 * This method will return the point status. (whether the point is empty)
+	 */
+	public PointStatus getStatus(){
+		return _ps;
+	}
 
 }

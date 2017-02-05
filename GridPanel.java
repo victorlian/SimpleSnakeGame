@@ -13,8 +13,8 @@ public class GridPanel extends JPanel{
 
 	private static final long serialVersionUID = 1L;
 	
-	public static final int rows = 20;
-	public static final int cols = 20;
+	public static final int rows = 8;
+	public static final int cols = 8;
 	private static final int rowDim = Frame.sizeGridRow;
 	private static final int colDim = Frame.sizeGridCol;
 	
@@ -62,7 +62,7 @@ public class GridPanel extends JPanel{
 	 * This method checks if a row/col index is outOfBounds.
 	 */
 	public boolean isInBound(int row, int col){
-		return (row<rows && col<cols);
+		return (row<rows && col<cols && row >= 0 && col >= 0);
 	}
 	
 

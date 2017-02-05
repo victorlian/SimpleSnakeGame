@@ -10,13 +10,13 @@ import javax.swing.Timer;
  *
  */
 public class Game {
-	private Snake snake = new Snake();
-	private Point food;
-	public static final int timerSpeed = 500;
+	private Snake _snake = new Snake();
+	private Food _food;
+	public static final int timerSpeed = 1000;
 	private Timer _timer = new Timer(timerSpeed, new ActionListener(){
 		@Override
 		public void actionPerformed(ActionEvent arg0){
-			nextMove();
+			continueGame();
 		}
 	});
 	
@@ -33,12 +33,15 @@ public class Game {
 	
 	public void startGame(){		
 		_timer.start();
+		_food = Food.getInstance();
 	}
 	
-	public void nextMove(){
-		if(!snake.nextMove()){
+	//Check if the game ends here. If not, generate a new food.
+	public void continueGame(){
+		if(!_snake.nextMove()){
 			_timer.stop();
 			System.out.println("Game ends!");
+			return;
 		}
 	}
 	
@@ -47,7 +50,7 @@ public class Game {
 	 * @return
 	 */
 	public Snake getSnake(){
-		return snake;
+		return _snake;
 	}
 	
 	

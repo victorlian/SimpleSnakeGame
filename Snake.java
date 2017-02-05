@@ -35,8 +35,7 @@ public class Snake {
 			_nextDirection=null;
 		}
 		System.out.println("moved!");
-		Point first = _occupiedPoints.remove(0);
-		first.release();
+		Point first = _occupiedPoints.get(0);
 		Point last = _occupiedPoints.get(_occupiedPoints.size()-1);
 		int row = last.getRow();
 		int col = last.getCol();
@@ -60,12 +59,18 @@ public class Snake {
 			return false;
 		}
 		
-		if (isTouching()){
+
+		Point nextPoint = GridPanel.getInstance().getPointAt(row, col);
+		
+		if (isTouching(nextPoint)){
 			return false;
 		}
 		
+		if (!isEating(nextPoint)){
+			first.release();
+			_occupiedPoints.remove(0);
+		}
 		
-		Point nextPoint = GridPanel.getInstance().getPointAt(row, col);
 		nextPoint.Occupy();
 		_occupiedPoints.add(nextPoint);
 		return true;
@@ -77,10 +82,26 @@ public class Snake {
 	 * 
 	 * @return
 	 */
-	public boolean isTouching(){
+	public boolean isTouching(Point nextPoint){
+		if (nextPoint.getStatus() == Point.PointStatus.SNAKE){
+			return true;
+		}
 		return false;
 	}
 	
+	/**
+	 * This method returns if the point about to be added is a food point.
+	 * As soon as the snake eats the food, it should generate the next food position.
+	 * 
+	 * @return
+	 */
+	public boolean isEating(Point nextPoint){
+		if (nextPoint.getStatus() == Point.PointStatus.FOOD){
+			Food.getInstance().updateFood();
+			return true;
+		}
+		return false;
+	}
 	
 	/**
 	 * Methods for changing direction purpose.
@@ -106,6 +127,13 @@ public class Snake {
 		if (_directionOfTravel != Snake.Direction.East && _nextDirection == null){
 			_nextDirection = Snake.Direction.West;
 		}
+	}
+	
+	/**
+	 * Method for checking if the snake occupies the entire screen.
+	 */
+	public boolean isFull(){
+		return (_occupiedPoints.size()==GridPanel.cols * GridPanel.rows);
 	}
 	
 }
