@@ -51,7 +51,6 @@ public class Snake {
 			_directionOfTravel = _nextDirection;
 			_nextDirection=null;
 		}
-		System.out.println("moved!");
 		Point first = _occupiedPoints.get(0);
 		Point last = _occupiedPoints.get(_occupiedPoints.size()-1);
 		int row = last.getRow();

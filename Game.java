@@ -12,8 +12,10 @@ import javax.swing.Timer;
  */
 public class Game {
 	private Snake _snake = new Snake();
-	public static final int timerSpeed = 600;
-	private Timer _timer = new Timer(timerSpeed, new ActionListener(){
+	public static final int minDelay = 100;
+	public static final int maxDelay = 1100;
+	public static final int defaultDelay = 600;
+	private Timer _timer = new Timer(defaultDelay, new ActionListener(){
 		@Override
 		public void actionPerformed(ActionEvent arg0){
 			continueGame();
@@ -83,6 +85,13 @@ public class Game {
 	 */
 	public Snake getSnake(){
 		return _snake;
+	}
+	
+	/**
+	 * Update speed
+	 */
+	public void updateSpeed(int delay){
+		_timer.setDelay(delay);
 	}
 	
 	

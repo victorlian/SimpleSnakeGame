@@ -1,15 +1,21 @@
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSlider;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Hashtable;
 
 import javax.swing.JButton;
 
-public class Frame extends JFrame implements KeyListener{
+public class Frame extends JFrame implements KeyListener, ChangeListener{
 
 	/**
 	 * 
@@ -40,7 +46,7 @@ public class Frame extends JFrame implements KeyListener{
 		buttonPanel = new JPanel();
 		buttonPanel.setBounds(436, 68, 117, 216);
 		contentPane.add(buttonPanel);
-		buttonPanel.setLayout(new GridLayout(3, 0, 0, 0));
+		buttonPanel.setLayout(new GridLayout(4, 0, 0, 0));
 		
 
 		JButton btnStart = new JButton("Start");
@@ -53,6 +59,24 @@ public class Frame extends JFrame implements KeyListener{
 		btnEnd.setFocusable(false);
 		buttonPanel.add(btnPause);
 		btnPause.setFocusable(false);
+		
+		//Create the slider
+		JSlider speedSlider = new JSlider(JSlider.HORIZONTAL, Game.minDelay, Game.maxDelay, Game.defaultDelay);
+		speedSlider.addChangeListener(this);
+		speedSlider.setMajorTickSpacing(200);
+		speedSlider.setPaintTicks(true);
+
+		//Create the label table
+		Hashtable <Integer, JLabel>labelTable = new Hashtable<Integer, JLabel>();
+		labelTable.put( new Integer( Game.maxDelay ), new JLabel("Slow") );
+		labelTable.put( new Integer( Game.defaultDelay ), new JLabel("Normal") );
+		labelTable.put( new Integer( Game.minDelay ), new JLabel("Fast") );
+		speedSlider.setLabelTable( labelTable );
+
+		speedSlider.setPaintLabels(true);
+		
+		buttonPanel.add(speedSlider);
+		speedSlider.setFocusable(false);
 
 			
 		
@@ -132,4 +156,13 @@ public class Frame extends JFrame implements KeyListener{
 
 	@Override
 	public void keyTyped(KeyEvent e) {}
+
+	@Override
+	public void stateChanged(ChangeEvent e) {
+		
+		JSlider slider = (JSlider) e.getSource();
+		System.out.println("speed change!" + slider.getValue());
+		Game.getInstance().updateSpeed(slider.getValue());
+		
+	}
 }
