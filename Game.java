@@ -12,6 +12,8 @@ import javax.swing.Timer;
  */
 public class Game {
 	private Snake _snake = new Snake();
+	private int _highScore = 0;
+	private int _score = 0;
 	public static final int minDelay = 100;
 	public static final int maxDelay = 1100;
 	public static final int defaultDelay = 600;
@@ -21,6 +23,7 @@ public class Game {
 			continueGame();
 		}
 	});
+	private Frame _frame;
 	
 	private static Game instance;
 	
@@ -36,10 +39,11 @@ public class Game {
 	/**
 	 * Game controlling methods.
 	 */
-	public void startGame(){		
+	public void startGame(Frame frame){		
 		_snake = new Snake();
 		_timer.restart();
 		Food.getInstance().updateFood();
+		_frame = frame;
 	}
 	
 	public void endGame(){
@@ -94,6 +98,35 @@ public class Game {
 		_timer.setDelay(delay);
 	}
 	
+	/**
+	 * Methods that keep track and sets high scores.
+	 * @return
+	 */
+	public int getHighscore(){
+		return _highScore;
+		
+	}
+	public void updateHighscore(){
+		if (_highScore < _score){
+			_highScore = _score;
+		}
+		updateScoreLabels();
+	}
+	public void incrementScore(){
+		_score++;
+		updateScoreLabels();
+		updateHighscore();
+	}
+	public void clearScore(){
+		_score = 0;
+		updateScoreLabels();
+	}
+	public int getScore(){
+		return _score;
+	}
+	public void updateScoreLabels(){
+		_frame.updateLabels(_score, _highScore);
+	}
 	
 
 }

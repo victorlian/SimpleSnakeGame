@@ -23,7 +23,9 @@ public class Frame extends JFrame implements KeyListener, ChangeListener{
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JPanel gridPanel = GridPanel.getInstance();
-	private JPanel buttonPanel;
+	private JPanel controlPanel;
+	private JLabel scoreLabel = new JLabel();
+	private JLabel highScoreLabel = new JLabel();
 	public static final int sizeGridRow = 380;
 	public static final int sizeGridCol = 380;
 	
@@ -43,84 +45,17 @@ public class Frame extends JFrame implements KeyListener, ChangeListener{
 		gridPanel.setBounds(5, 5, sizeGridRow, sizeGridCol);
 		contentPane.add(gridPanel);
 		
-		buttonPanel = new JPanel();
-		buttonPanel.setBounds(436, 68, 117, 216);
-		contentPane.add(buttonPanel);
-		buttonPanel.setLayout(new GridLayout(4, 0, 0, 0));
+		controlPanel = new JPanel();
+		controlPanel.setBounds(436, 68, 117, 316);
+		contentPane.add(controlPanel);
+		controlPanel.setLayout(new GridLayout(8, 0, 0, 0));
 		
 
-		JButton btnStart = new JButton("Start");
-		JButton btnEnd = new JButton("End");
-		JButton btnPause = new JButton("Pause");
-
-		buttonPanel.add(btnStart);
-		btnStart.setFocusable(false);
-		buttonPanel.add(btnEnd);
-		btnEnd.setFocusable(false);
-		buttonPanel.add(btnPause);
-		btnPause.setFocusable(false);
-		
-		//Create the slider
-		JSlider speedSlider = new JSlider(JSlider.HORIZONTAL, Game.minDelay, Game.maxDelay, Game.defaultDelay);
-		speedSlider.addChangeListener(this);
-		speedSlider.setMajorTickSpacing(200);
-		speedSlider.setPaintTicks(true);
-
-		//Create the label table
-		Hashtable <Integer, JLabel>labelTable = new Hashtable<Integer, JLabel>();
-		labelTable.put( new Integer( Game.maxDelay ), new JLabel("Slow") );
-		labelTable.put( new Integer( Game.defaultDelay ), new JLabel("Normal") );
-		labelTable.put( new Integer( Game.minDelay ), new JLabel("Fast") );
-		speedSlider.setLabelTable( labelTable );
-
-		speedSlider.setPaintLabels(true);
-		
-		buttonPanel.add(speedSlider);
-		speedSlider.setFocusable(false);
-
-			
-		
-		this.addKeyListener(this);
-		this.setFocusable(true);
-		this.setFocusTraversalKeysEnabled(false);
-		
-		btnStart.addActionListener(new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				Game.getInstance().startGame();
-				btnStart.setEnabled(false);
-				btnEnd.setEnabled(true);
-				btnPause.setEnabled(true);
-			}
-			
-		});
-		btnEnd.addActionListener(new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				Game.getInstance().endGame();
-				btnEnd.setEnabled(false);
-				btnStart.setEnabled(true);
-				btnPause.setText("Pause");
-				btnPause.setEnabled(false);
-			}
-			
-		});
-		btnPause.addActionListener(new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				if (btnPause.getText().equals("Pause")){
-					Game.getInstance().pauseGame();
-					btnPause.setText("Resume");
-				}
-				else {
-					Game.getInstance().resumeGame();
-					btnPause.setText("Pause");
-				}
-			}
-			
-		});
-		
-		
+		addButtons();
+		controlPanel.add(new JPanel());
+		addSlider();
+		controlPanel.add(new JPanel());
+		addLabels();
 		
 	}
 
@@ -165,4 +100,103 @@ public class Frame extends JFrame implements KeyListener, ChangeListener{
 		Game.getInstance().updateSpeed(slider.getValue());
 		
 	}
+	
+	/**
+	 * Private helper method for adding all the buttons to the Panel.
+	 */
+	private void addButtons() {
+		JButton btnStart = new JButton("Start");
+		JButton btnEnd = new JButton("End");
+		JButton btnPause = new JButton("Pause");
+
+		controlPanel.add(btnStart);
+		btnStart.setFocusable(false);
+		controlPanel.add(btnEnd);
+		btnEnd.setFocusable(false);
+		controlPanel.add(btnPause);
+		btnPause.setFocusable(false);
+		
+		btnStart.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				Game.getInstance().startGame(Frame.this);
+				btnStart.setEnabled(false);
+				btnEnd.setEnabled(true);
+				btnPause.setEnabled(true);
+			}
+			
+		});
+		btnEnd.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				Game.getInstance().endGame();
+				btnEnd.setEnabled(false);
+				btnStart.setEnabled(true);
+				btnPause.setText("Pause");
+				btnPause.setEnabled(false);
+			}
+			
+		});
+		btnPause.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if (btnPause.getText().equals("Pause")){
+					Game.getInstance().pauseGame();
+					btnPause.setText("Resume");
+				}
+				else {
+					Game.getInstance().resumeGame();
+					btnPause.setText("Pause");
+				}
+			}
+			
+		});
+	}
+	
+	/**
+	 * Private helper method for adding the JSlider.
+	 */
+	private void addSlider(){
+		//Create the slider
+		JSlider speedSlider = new JSlider(JSlider.HORIZONTAL, Game.minDelay, Game.maxDelay, Game.defaultDelay);
+		speedSlider.addChangeListener(this);
+		speedSlider.setMajorTickSpacing(200);
+		speedSlider.setPaintTicks(true);
+
+		//Create the label table
+		Hashtable <Integer, JLabel>labelTable = new Hashtable<Integer, JLabel>();
+		labelTable.put( new Integer( Game.maxDelay ), new JLabel("Slow") );
+		labelTable.put( new Integer( Game.defaultDelay ), new JLabel("Normal") );
+		labelTable.put( new Integer( Game.minDelay ), new JLabel("Fast") );
+		speedSlider.setLabelTable( labelTable );
+
+		speedSlider.setPaintLabels(true);
+		
+		controlPanel.add(speedSlider);
+		speedSlider.setFocusable(false);			
+		
+		this.addKeyListener(this);
+		this.setFocusable(true);
+		this.setFocusTraversalKeysEnabled(false);
+	}
+	
+	/**
+	 * Private helper method for adding the score JLabel.
+	 */
+	private void addLabels(){
+		int score = Game.getInstance().getScore();
+		int highScore = Game.getInstance().getHighscore();
+		
+		scoreLabel.setText("current score: " + score);
+		highScoreLabel.setText("highscore: " + highScore);
+		
+		controlPanel.add(scoreLabel);
+		controlPanel.add(highScoreLabel);
+	}
+	
+	public void updateLabels(int score, int highScore) {
+		scoreLabel.setText("current score: " + score);
+		highScoreLabel.setText("highscore: " + highScore);
+	}
+
 }

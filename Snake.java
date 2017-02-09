@@ -73,6 +73,7 @@ public class Snake {
 		}
 		
 		if (!GridPanel.getInstance().isInBound(row, col)){
+			Game.getInstance().clearScore();
 			return GameStatus.LOST;
 		}
 		
@@ -80,6 +81,7 @@ public class Snake {
 		Point nextPoint = GridPanel.getInstance().getPointAt(row, col);
 		
 		if (isTouching(nextPoint)){
+			Game.getInstance().clearScore();
 			return GameStatus.LOST;
 		}
 		
@@ -87,6 +89,7 @@ public class Snake {
 		if (isEating(nextPoint) && isFull()){
 			nextPoint.Occupy();
 			nextPoint.colourHead();
+			Game.getInstance().incrementScore();
 			return GameStatus.WON;
 		}
 		
@@ -94,6 +97,7 @@ public class Snake {
 			first.release();
 			_occupiedPoints.remove(0);
 		} else {
+			Game.getInstance().incrementScore();
 			Food.getInstance().updateFood();
 		}
 
